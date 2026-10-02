@@ -1,0 +1,7 @@
+.rocks/
+var/
+.tmp_mutant.*
+*.um.backup.*
+node_modules/
+# Шаблоны страниц tnt-template: HTML с вкраплениями, не Lua.
+**/*.thtml.lua

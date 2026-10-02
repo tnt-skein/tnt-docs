@@ -1,0 +1,205 @@
+// То, что раздел умеет сверх рамки: главная с карточками страниц,
+// страница выдачи поиска, команда установки пакета, переход к соседней
+// странице и отметки найденного.
+//
+// Нарисовано теми же токенами и приёмами, что и остальной раздел:
+// рамка в один пиксель цвета границы, скругление `0.8rem`, подложка
+// `--bs-secondary-bg` при наведении, заголовок насыщенностью 650
+// и подпись вторичным цветом. Новых цветов и размеров здесь нет —
+// карточка главной и строка выдачи читаются как часть того же раздела,
+// что меню и окно поиска.
+
+// Главная раздела: группы страниц, в группе — сетка карточек.
+.docs-index-group + .docs-index-group {
+    margin-top: 2.5rem;
+}
+
+.docs-index-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+    gap: 0.75rem;
+    margin: 1rem 0 0;
+    padding: 0;
+    list-style: none;
+
+    li {
+        margin: 0;
+    }
+}
+
+// Карточка страницы — ссылка целиком: по ней щёлкают в любом месте,
+// а не только по заголовку.
+.docs-index-card {
+    display: grid;
+    height: 100%;
+    align-content: start;
+    gap: 0.3rem;
+    padding: 0.9rem 1rem;
+    border: 1px solid var(--bs-border-color);
+    border-radius: 0.8rem;
+    color: var(--bs-body-color);
+    background: var(--bs-body-bg);
+    text-decoration: none;
+    transition:
+        color var(--docs-motion-fast) var(--docs-ease-out),
+        border-color var(--docs-motion-fast) var(--docs-ease-out),
+        background-color var(--docs-motion-fast) var(--docs-ease-out);
+
+    &:hover,
+    &:focus-visible {
+        border-color: rgba($primary, 0.45);
+        color: var(--bs-emphasis-color);
+        background: var(--bs-secondary-bg);
+    }
+
+    &:focus-visible {
+        outline: 2px solid rgba($primary, 0.65);
+        outline-offset: -2px;
+    }
+
+    .badge {
+        justify-self: start;
+        font-size: 0.625rem;
+    }
+}
+
+.docs-index-card-title {
+    color: var(--bs-emphasis-color);
+    font-size: 0.9375rem;
+    font-weight: 650;
+    line-height: 1.35;
+    text-wrap: balance;
+}
+
+// Описание — первый абзац документа, не длиннее трёх строк: карточки
+// в ряду одной высоты читаются сеткой, а не лесенкой.
+.docs-index-card-note {
+    display: -webkit-box;
+    overflow: hidden;
+    color: var(--bs-secondary-color);
+    font-size: 0.8125rem;
+    line-height: 1.45;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+}
+
+// Команда установки пакета: та же ограда кода, что в тексте, — полоску
+// с подписью и кнопку «скопировать» ставит контроллер `docs`, как у любой
+// ограды. Отступ — как у ограды в тексте.
+.docs-package {
+    margin-bottom: 1.5rem;
+
+    pre {
+        margin-bottom: 0;
+    }
+}
+
+// Соседние страницы по порядку меню: в конце текста, две ссылки рядом.
+.docs-pager {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.75rem;
+    margin-top: 3rem;
+}
+
+.docs-pager-link {
+    display: grid;
+    gap: 0.2rem;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--bs-border-color);
+    border-radius: 0.8rem;
+    color: var(--bs-body-color);
+    text-decoration: none;
+    transition:
+        color var(--docs-motion-fast) var(--docs-ease-out),
+        border-color var(--docs-motion-fast) var(--docs-ease-out),
+        background-color var(--docs-motion-fast) var(--docs-ease-out);
+
+    &:hover,
+    &:focus-visible {
+        border-color: rgba($primary, 0.45);
+        color: var(--bs-emphasis-color);
+        background: var(--bs-secondary-bg);
+    }
+
+    &:focus-visible {
+        outline: 2px solid rgba($primary, 0.65);
+        outline-offset: -2px;
+    }
+}
+
+// Следующая страница — справа, даже когда предыдущей нет.
+.docs-pager-next {
+    grid-column: 2;
+    text-align: right;
+}
+
+.docs-pager-label {
+    color: var(--bs-secondary-color);
+    font-size: 0.75rem;
+    font-weight: 600;
+    line-height: 1.25;
+}
+
+.docs-pager-title {
+    color: var(--bs-emphasis-color);
+    font-size: 0.9375rem;
+    font-weight: 650;
+    line-height: 1.35;
+    text-wrap: balance;
+}
+
+// Страница выдачи поиска: поле — то же, что в окне ⌘K, список — те же
+// строки, только без своей прокрутки: страница прокручивается сама.
+.docs-found-field {
+    padding-right: 0.35rem;
+
+    .btn {
+        flex: 0 0 auto;
+    }
+}
+
+.docs-found-total {
+    margin: 1.25rem 0 0;
+    color: var(--bs-secondary-color);
+    font-size: 0.8125rem;
+}
+
+.docs-found .docs-search-results {
+    max-height: none;
+    overflow: visible;
+}
+
+// Отрывок выдачи отмечает найденное слово любой формы.
+.docs-search-result-snippet mark {
+    padding: 0 0.1em;
+    border-radius: 0.2em;
+    color: inherit;
+    background: rgba($primary, 0.16);
+}
+
+// Пометка «нашлись не все слова»: та же подпись, что под заголовком окна.
+.docs-search-partial {
+    margin: 0.75rem 0 0;
+    padding: 0 0.75rem;
+    color: var(--bs-secondary-color);
+    font-size: 0.75rem;
+    line-height: 1.4;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .docs-index-card,
+    .docs-pager-link {
+        transition-duration: 0.01ms;
+    }
+}
+
+@include media-breakpoint-down(md) {
+    .docs-pager {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .docs-pager-next {
+        grid-column: 1;
+    }
+}
